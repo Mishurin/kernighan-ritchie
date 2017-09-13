@@ -9,7 +9,7 @@ import glob
 import os
 
 PARSER = argparse.ArgumentParser(description='Arguments for compiler', usage='%(prog)s [options]')
-PARSER.add_argument('w', help='Show warnings')
+PARSER.add_argument('w', nargs='?', help='Show warnings')
 PARSER.add_argument('--comp', default='cc', help='Compiler executable')
 PARSER.add_argument('--sn', required=True, help='Solution number')
 PARSER.add_argument('--out', nargs='?', default=None, help='Destination')
