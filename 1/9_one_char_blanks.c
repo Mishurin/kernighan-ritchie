@@ -7,7 +7,7 @@
 
 int main() {
 
-    int scount = 0;
+    int spaced = 0;
 
     char c;
 
@@ -15,16 +15,15 @@ int main() {
 
         if (c == ' ') {
 
-            if (scount == 0) {
-                putchar(c);
+            if (spaced) {
+                ;
             } else {
-                scount = 0;
+                putchar(c);
+                spaced = 1;
             }
 
-            scount++;
-            
         } else {
-            scount = 0;
+            spaced = 0;
             putchar(c);
         }
     }
