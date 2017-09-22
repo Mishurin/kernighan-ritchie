@@ -1,0 +1,4 @@
+line with tab   and spaces and new line
+line with tab   and spaces and new line
+line with tab   and spaces and new line
+line with tab   and spaces and new line
