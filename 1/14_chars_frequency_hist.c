@@ -7,6 +7,9 @@
 
 #define ASCII_MAX 255
 
+// Run to test:
+// python .\runcc.py --comp gcc --sn 1.14 --opts "<" .\1\mocks\char_frequency.txt
+
 int main() {
     
     int registry[ASCII_MAX];
