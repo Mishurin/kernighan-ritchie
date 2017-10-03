@@ -1,5 +1,5 @@
 /*
-* Excercise 1-7. Write program to print the value of EOF.
+* Exercise 1-7. Write program to print the value of EOF.
 */
 
 #include <stdio.h>

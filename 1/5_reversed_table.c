@@ -1,5 +1,5 @@
 /*
-* Excercise 1-5. Modify the temperature conversion program to print the table in reversed order,
+* Exercise 1-5. Modify the temperature conversion program to print the table in reversed order,
 * that is, from 300 degrees to 0.
 */
 
