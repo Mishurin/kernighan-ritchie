@@ -15,6 +15,7 @@ PARSER.add_argument('--sn', required=True, help='Solution number')
 PARSER.add_argument('--out', nargs='?', default=None, help='Destination')
 PARSER.add_argument('--opts', nargs='*', help='Parameters for executable')
 
+
 ARGS = PARSER.parse_args()
 
 OPTION_LIST = []

@@ -9,6 +9,7 @@ MAX_CHAR_VALUE = 255
 PARSER = argparse.ArgumentParser(description='Text generator', usage='%(prog)s [options]')
 PARSER.add_argument('--mode', default='default', help='Mode')
 PARSER.add_argument('--char', default='x', help='Character to fill')
+PARSER.add_argument('--lines', default='1', help='Number of lines')
 PARSER.add_argument('--dest', required=True, help='Destination location')
 PARSER.add_argument('--length', required=True, help='Char length')
 
@@ -24,11 +25,14 @@ OUT = open(ARGS.dest, 'w')
 
 if ARGS.mode is not 'r':
     CHAR_CODE = ARGS.char
-    for a in range(0, int(ARGS.length)):
-        OUT.write(ARGS.char)
+    for i in range(int(ARGS.lines)):
+        for a in range(0, int(ARGS.length)):
+            OUT.write(ARGS.char)
+        if ARGS.lines > 0:
+            OUT.write('\n')
 else:
-    for a in range(0, int(ARGS.length) + 1):
-        OUT.write(get_random_ascii_char())
-
-
-
+    for i in range(int(ARGS.lines)):
+        for a in range(0, int(ARGS.length) + 1):
+            OUT.write(get_random_ascii_char())
+        if ARGS.lines > 0:
+            OUT.write('\n')
