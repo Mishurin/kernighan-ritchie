@@ -21,18 +21,19 @@ def get_random_ascii_char():
     '''
     return chr(random.randrange(0, MAX_CHAR_VALUE + 1))
 
+def write_to_file(file, line_num, line_length, get_symbol):
+    '''
+    Generates a symbol to file based on predicate
+    '''
+    for i in range(line_num):
+        for k in range(line_length):
+            file.write(get_symbol())
+        if line_num > 0:
+            file.write('\n')
+
 OUT = open(ARGS.dest, 'w')
 
 if ARGS.mode is not 'r':
-    CHAR_CODE = ARGS.char
-    for i in range(int(ARGS.lines)):
-        for a in range(0, int(ARGS.length)):
-            OUT.write(ARGS.char)
-        if ARGS.lines > 0:
-            OUT.write('\n')
+    write_to_file(OUT, int(ARGS.lines), int(ARGS.length), lambda: ARGS.char)
 else:
-    for i in range(int(ARGS.lines)):
-        for a in range(0, int(ARGS.length) + 1):
-            OUT.write(get_random_ascii_char())
-        if ARGS.lines > 0:
-            OUT.write('\n')
+    write_to_file(OUT, int(ARGS.lines), int(ARGS.length), get_random_ascii_char)
