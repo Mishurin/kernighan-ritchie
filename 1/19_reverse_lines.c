@@ -1,5 +1,5 @@
 /*
-* Excercise 1-19. Write a function reverse(s) that reverses the character
+* Exercise 1-19. Write a function reverse(s) that reverses the character
 * string s. Use it to write a program that reverses its intput a line 
 * at a time
 */
@@ -8,7 +8,7 @@
 #define MAXLINE 1000
 
 // Run to test program:
-// python .\runcc.py --comp gcc --sn 1.18 --opts "<" .\1\mocks\reversed_words.txt
+// python .\runcc.py --comp gcc --sn 1.19 --opts "<" .\1\mocks\reversed_words.txt
 
 int len(char s[]);
 void copy(char to[], char from[]);

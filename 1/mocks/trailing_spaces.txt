@@ -1,0 +1,4 @@
+I am a string with trailing spaces     
+I am a string with trailing tabs                    
+   
+            
