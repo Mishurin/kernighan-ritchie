@@ -29,13 +29,10 @@ int get_frame(char s[], int lim) {
     char c;
     int i;
     int trailing_space_count = 0;
-    int has_carriage_return = 0;
-    int has_new_line = 0;
     for (i = 0; i < lim && (c = getchar()) != EOF; i++) {
         if (c == ' ') {
             trailing_space_count++;
         } else if (c == '\n') {
-            has_new_line = 1;
             s[i] = c;
             i++;
             break;
