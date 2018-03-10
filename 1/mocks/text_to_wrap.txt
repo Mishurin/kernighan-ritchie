@@ -1,0 +1,4 @@
+I am a	long line with some text which should be wrapped.
+I am a	long line with some text which should be wrapped.
+I am a long line with some text which should be wrapped.
+I am a long line with some text which should be wrapped.

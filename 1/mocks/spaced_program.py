@@ -7,4 +7,4 @@ def myfn():
     else:
         return 0
 
-print fn
+print fn()
