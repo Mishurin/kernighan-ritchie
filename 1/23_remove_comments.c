@@ -4,6 +4,9 @@
 * C comments do not nest.
 */
 
+// Run test with:
+// python .\runcc.py --comp gcc --sn 1.23 --opts "<" .\1\mocks\c_program_with_comments.c ">" out.c
+
 #include <stdio.h>
 
 int main()
@@ -44,26 +47,24 @@ int main()
             dquote_open = 0;
         }
 
-        if (!squote_open && !dquote_open && (!sl_comment_open && !ml_comment_open) && ch == '/')
+        if (!squote_open && !dquote_open && (!sl_comment_open && !ml_comment_open) && !comment_slash_detected && ch == '/')
         {
             comment_slash_detected = 1;
+            continue; // Skip checks to match double slashes in next iteration
         }
 
         if (comment_slash_detected && ch == '/')
         {
             sl_comment_open = 1;
+            comment_slash_detected = 0;
         }
 
         if (comment_slash_detected && ch == '*')
         {
             ml_comment_open = 1;
-            continue;
-        }
-
-        if (comment_slash_detected && (sl_comment_open || ml_comment_open))
-        {
             comment_slash_detected = 0;
         }
+
 
         if (sl_comment_open && (ch == '\r' || ch == '\n'))
         {
@@ -83,6 +84,7 @@ int main()
         if (closing_ml_star_detected && ch == '/') {
             closing_ml_star_detected = 0;
             ml_comment_open = 0;
+            continue;
         }
 
         if (!sl_comment_open && !ml_comment_open)
