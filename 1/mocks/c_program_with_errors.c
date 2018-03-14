@@ -10,3 +10,11 @@ int main()
 
     return 0;
 }
+
+/*
+* Right comment
+*/
+
+/*
+* Bad comment
+/
