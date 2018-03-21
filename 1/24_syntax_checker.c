@@ -108,6 +108,8 @@ int main()
         if ((dcomma_open || scomma_open) && ch == '\n')
         {
             printf("Unexpected line break in the middle of the string literal\n");
+            scomma_open = 0;
+            dcomma_open = 0;
             continue;
         }
 

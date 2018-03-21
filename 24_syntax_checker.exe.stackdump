@@ -1,8 +1,0 @@
-Exception: STATUS_ACCESS_VIOLATION at eip=611773CD
-eax=00000000 ebx=00000001 ecx=0061CC28 edx=00000000 esi=00403060 edi=00000000
-ebp=0061CAAC esp=0061C980 program=C:\DEV\kernighan-ritchie\1\24_syntax_checker.exe, pid 17936, thread main
-cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
-Stack trace:
-Frame     Function  Args
-0061CAAC  611773CD (00000000, 00000000, 611BFD34, 00000000)
-End of stack trace
