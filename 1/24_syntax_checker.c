@@ -21,7 +21,7 @@
 // there are few more however sequences allowed
 #define ESCAPE_SEQUENCES_ARR_LENGTH 12
 
-char ESCAPE_SEQUENCES[ESCAPE_SEQUENCES_ARR_LENGTH] = {'a', 'b', 'f', 'n', 'r', 't', 'v', '\\', '\'', '\"', '\?', '\e'};
+char ESCAPE_SEQUENCES[ESCAPE_SEQUENCES_ARR_LENGTH] = {'a', 'b', 'f', 'n', 'r', 't', 'v', '\\', '\'', '\"', '?', 'e'};
 
 int is_allowed_escape_sequence(char ch);
 
