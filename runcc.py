@@ -10,6 +10,8 @@ import os
 
 PARSER = argparse.ArgumentParser(description='Arguments for compiler', usage='%(prog)s [options]')
 PARSER.add_argument('w', nargs='?', help='Show warnings')
+PARSER.add_argument('g', nargs='?', help='Prepare for debugging')
+PARSER.add_argument('--i', nargs='?', help='Include directory')
 PARSER.add_argument('--comp', default='cc', help='Compiler executable')
 PARSER.add_argument('--sn', required=True, help='Solution number')
 PARSER.add_argument('--out', nargs='?', default=None, help='Destination')
@@ -23,9 +25,17 @@ OPTION_LIST = []
 # Add compiler
 OPTION_LIST.append(ARGS.comp)
 
+# Add include directory
+if ARGS.i:
+    OPTION_LIST.append('-I')
+    OPTION_LIST.append(ARGS.i)
+
 # Add warning mode
 if ARGS.w:
     OPTION_LIST.append('-Wall')
+
+if ARGS.g:
+    OPTION_LIST.append('-g')
 
 PATH = ARGS.sn.split('.')
 FILES = glob.glob(os.path.join(PATH[0], '{0}_**.c'.format(PATH[1])))
@@ -52,6 +62,7 @@ if ARGS.opts:
     EXEC_OPTIONS.extend(ARGS.opts)
 
 # Run compilation
+print OPTION_LIST
 EXIT_CODE = subprocess.call(OPTION_LIST, stdout=os.sys.stdout)
 
 # Run execution
