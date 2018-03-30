@@ -28,9 +28,34 @@ void print_row(char type[], int min, int max, int bits)
     printf("%-30s|%20d|%20d|%10d|\n", type, min, max, bits);
 }
 
+void print_row_with_ui(char type[], long int min, long int max, int bits)
+{
+    printf("%-30s|%20u|%20u|%10d|\n", type, min, max, bits);  
+}
+
 void print_row_with_long(char type[], long int min, long int max, int bits)
 {
-    printf("%-30s|%20ld|%20ld|%10ld|\n", type, min, max, bits);   
+    printf("%-30s|%20ld|%20ld|%10d|\n", type, min, max, bits);  
+}
+
+void print_row_with_ulong(char type[], unsigned long int min, unsigned long int max, int bits)
+{
+    printf("%-30s|%20lu|%20lu|%10d|\n", type, min, max, bits);   
+}
+
+void print_row_with_llong(char type[], long long int min, long long int max, int bits)
+{
+    printf("%-30s|%20lld|%20lld|%10d|\n", type, min, max, bits);   
+}
+
+void print_row_with_ullong(char type[], unsigned long long int min, unsigned long long int max, int bits)
+{
+    printf("%-30s|%20llu|%20llu|%10d|\n", type, min, max, bits);   
+}
+
+void print_row_with_float(char type[], float min, float max, int bits)
+{
+    printf("Type:%s\nMin:%f\nMax:%f\nSize:%d\n", type, min, max, bits * 8);   
 }
 
 int main()
@@ -42,10 +67,12 @@ int main()
     print_row("signed short int", SHRT_MIN, SHRT_MAX, WORD_BIT);
     print_row("unsigned short int", 0, USHRT_MAX, WORD_BIT);
     print_row("signed int", INT_MIN, INT_MAX, WORD_BIT);
-    print_row("unsigned int", 0, UINT_MAX, WORD_BIT);
+    print_row_with_ui("unsigned int", 0, UINT_MAX, WORD_BIT);
     print_row_with_long("signed long int", LONG_MIN, LONG_MAX, LONG_BIT);
-    print_row_with_long("unsigned long int", 0, ULLONG_MAX, LONG_BIT);
-    // print_row("signed long long int", LONG_LONG_MIN, LONG_LONG_MAX, LONG_BIT);
-    // print_row("unsigned long int", 0, ULONG_LONG_MAX, LONG_BIT);
+    print_row_with_ulong("unsigned long int", 0, ULONG_MAX, LONG_BIT);
+    print_row_with_llong("signed long long int", LLONG_MIN, LLONG_MAX, LONG_BIT);
+    print_row_with_ullong("unsigned long long int", 0, ULLONG_MAX, LONG_BIT);
+    printf("****************************\n");
+    print_row_with_float("float", FLT_MIN, FLT_MAX, sizeof(float));
     return 0;
 }
