@@ -30,33 +30,106 @@ void print_row(char type[], int min, int max, int bits)
 
 void print_row_with_ui(char type[], long int min, long int max, int bits)
 {
-    printf("%-30s|%20u|%20u|%10d|\n", type, min, max, bits);  
+    printf("%-30s|%20u|%20u|%10d|\n", type, min, max, bits);
 }
 
 void print_row_with_long(char type[], long int min, long int max, int bits)
 {
-    printf("%-30s|%20ld|%20ld|%10d|\n", type, min, max, bits);  
+    printf("%-30s|%20ld|%20ld|%10d|\n", type, min, max, bits);
 }
 
 void print_row_with_ulong(char type[], unsigned long int min, unsigned long int max, int bits)
 {
-    printf("%-30s|%20lu|%20lu|%10d|\n", type, min, max, bits);   
+    printf("%-30s|%20lu|%20lu|%10d|\n", type, min, max, bits);
 }
 
 void print_row_with_llong(char type[], long long int min, long long int max, int bits)
 {
-    printf("%-30s|%20lld|%20lld|%10d|\n", type, min, max, bits);   
+    printf("%-30s|%20lld|%20lld|%10d|\n", type, min, max, bits);
 }
 
 void print_row_with_ullong(char type[], unsigned long long int min, unsigned long long int max, int bits)
 {
-    printf("%-30s|%20llu|%20llu|%10d|\n", type, min, max, bits);   
+    printf("%-30s|%20llu|%20llu|%10d|\n", type, min, max, bits);
 }
 
 void print_row_with_float(char type[], float min, float max, int bits)
 {
-    printf("Type:%s\nMin:%f\nMax:%f\nSize:%d\n", type, min, max, bits * 8);   
+    printf("Type:%s\nMin:%f\nMax:%f\nSize:%d\n", type, min, max, bits * 8);
 }
+
+int pow_int(int base, int exp)
+{
+    int res = 1;
+    while (exp--)
+    {
+        res *= base;
+    }
+    return res;
+}
+
+int pow_llong_int(int base, long long int exp)
+{
+    long long int res = 1;
+    while (exp--)
+    {
+        res *= base;
+    }
+    return res;
+}
+
+int range_int(int max_range_val, char min_max[], int is_signed)
+{
+    if (is_signed)
+    {
+        if (min_max == "min")
+        {
+            return -(max_range_val / 2);
+        }
+        else if (min_max == "max")
+        {
+            return max_range_val / 2 - 1;
+        }
+    }
+    else
+    {
+        if (min_max == "min")
+        {
+            return 0;
+        }
+        else if (min_max == "max")
+        {
+            return max_range_val - 1;
+        }
+    }
+}
+
+int range_llong_int(long long int max_range_val, char min_max[], int is_signed)
+{
+    if (is_signed)
+    {
+        if (min_max == "min")
+        {
+            return -(max_range_val / 2);
+        }
+        else if (min_max == "max")
+        {
+            return max_range_val / 2 - 1;
+        }
+    }
+    else
+    {
+        if (min_max == "min")
+        {
+            return 0;
+        }
+        else if (min_max == "max")
+        {
+            return max_range_val - 1;
+        }
+    }
+}
+
 
 int main()
 {
@@ -64,15 +137,34 @@ int main()
     print_row("char", CHAR_MIN, CHAR_MAX, CHAR_BIT);
     print_row("signed char", SCHAR_MIN, SCHAR_MAX, CHAR_BIT);
     print_row("unsigned char", 0, UCHAR_MAX, CHAR_BIT);
-    print_row("signed short int", SHRT_MIN, SHRT_MAX, WORD_BIT);
-    print_row("unsigned short int", 0, USHRT_MAX, WORD_BIT);
+
+    print_row("signed short int", SHRT_MIN, SHRT_MAX, sizeof(short int) * 8);
+    print_row("unsigned short int", 0, USHRT_MAX, sizeof(unsigned short int) * 8);
+
     print_row("signed int", INT_MIN, INT_MAX, WORD_BIT);
     print_row_with_ui("unsigned int", 0, UINT_MAX, WORD_BIT);
+
     print_row_with_long("signed long int", LONG_MIN, LONG_MAX, LONG_BIT);
     print_row_with_ulong("unsigned long int", 0, ULONG_MAX, LONG_BIT);
+
     print_row_with_llong("signed long long int", LLONG_MIN, LLONG_MAX, LONG_BIT);
     print_row_with_ullong("unsigned long long int", 0, ULLONG_MAX, LONG_BIT);
+
     printf("****************************\n");
-    print_row_with_float("float", FLT_MIN, FLT_MAX, sizeof(float));
+
+    print_header();
+    int char_size = sizeof(char) * 8;
+    int max_char_range = pow_int(2, char_size);
+    print_row("char", range_int(max_char_range, "min", 1), range_int(max_char_range, "max", 1), char_size);
+    print_row("signed char", range_int(max_char_range, "min", 1), range_int(max_char_range, "max", 1), char_size);
+    print_row("unsigned char", range_int(max_char_range, "min", 0), range_int(max_char_range, "max", 0), char_size);
+    int short_int_size = sizeof(short int) * 8;
+    int max_short_int_range = pow_int(2, short_int_size);
+    print_row("signed short int", range_int(max_short_int_range, "min", 1), range_int(max_short_int_range, "max", 1), short_int_size);
+    print_row("unsigned short int", range_int(max_short_int_range, "min", 0), range_int(max_short_int_range, "max", 0), short_int_size);
+    long long int int_size = sizeof(int) * 8;
+    long long int max_int_range = pow_llong_int(2, int_size);
+    print_row("signed int", range_llong_int(max_int_range, "min", 1), range_llong_int(max_int_range, "max", 1), int_size);
+    print_row("unsigned int", range_llong_int(max_int_range, "min", 0), range_llong_int(max_int_range, "max", 0), int_size);
     return 0;
 }
