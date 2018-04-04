@@ -68,9 +68,19 @@ int pow_int(int base, int exp)
     return res;
 }
 
-int pow_llong_int(int base, long long int exp)
+long long int pow_llong_int(int base, int exp)
 {
     long long int res = 1;
+    while (exp--)
+    {
+        res *= base;
+    }
+    return res;
+}
+
+unsigned long long int pow_ullong_int(int base, int exp)
+{
+    unsigned long long int res = 1;
     while (exp--)
     {
         res *= base;
@@ -104,7 +114,7 @@ int range_int(int max_range_val, char min_max[], int is_signed)
     }
 }
 
-int range_llong_int(long long int max_range_val, char min_max[], int is_signed)
+long long int range_llong_int(long long int max_range_val, char min_max[], int is_signed)
 {
     if (is_signed)
     {
@@ -130,6 +140,29 @@ int range_llong_int(long long int max_range_val, char min_max[], int is_signed)
     }
 }
 
+unsigned long long int unsigned_range_from_ullong_int(unsigned long long int max_range_val, char min_max[])
+{
+    if (min_max == "min")
+    {
+        return 0;
+    }
+    else if (min_max == "max")
+    {
+        return max_range_val - 1;
+    }
+}
+
+unsigned long long int signed_range_from_ullong_int(unsigned long long int max_range_val_reduced, char min_max[])
+{
+    if (min_max == "min")
+    {
+        return -max_range_val_reduced;
+    }
+    else if (min_max == "max")
+    {
+        return max_range_val_reduced - 1;
+    }
+}
 
 int main()
 {
@@ -162,9 +195,21 @@ int main()
     int max_short_int_range = pow_int(2, short_int_size);
     print_row("signed short int", range_int(max_short_int_range, "min", 1), range_int(max_short_int_range, "max", 1), short_int_size);
     print_row("unsigned short int", range_int(max_short_int_range, "min", 0), range_int(max_short_int_range, "max", 0), short_int_size);
-    long long int int_size = sizeof(int) * 8;
+    int int_size = sizeof(int) * 8;
     long long int max_int_range = pow_llong_int(2, int_size);
     print_row("signed int", range_llong_int(max_int_range, "min", 1), range_llong_int(max_int_range, "max", 1), int_size);
-    print_row("unsigned int", range_llong_int(max_int_range, "min", 0), range_llong_int(max_int_range, "max", 0), int_size);
+    print_row_with_ui("unsigned int", range_llong_int(max_int_range, "min", 0), range_llong_int(max_int_range, "max", 0), int_size);
+
+    int long_int_size = sizeof(long int) * 8;
+    unsigned long long int reduced_long_int_range = pow_ullong_int(2, long_int_size - 1); // Oferflow circumvent
+    unsigned long long int max_long_int_range = pow_ullong_int(2, long_int_size);
+    print_row_with_long("signed long int", signed_range_from_ullong_int(reduced_long_int_range, "min"), signed_range_from_ullong_int(reduced_long_int_range, "max"), long_int_size);
+    print_row_with_ulong("unsigned long int", unsigned_range_from_ullong_int(max_long_int_range, "min"), unsigned_range_from_ullong_int(max_long_int_range, "max"), long_int_size);
+
+    int llong_int_size = sizeof(long long int) * 8;
+    unsigned long long int reduced_llong_int_range = pow_ullong_int(2, llong_int_size - 1); // Oferflow circumvent
+    unsigned long long int max_llong_int_range = pow_ullong_int(2, llong_int_size);
+    print_row_with_long("signed long int", signed_range_from_ullong_int(reduced_llong_int_range, "min"), signed_range_from_ullong_int(reduced_llong_int_range, "max"), llong_int_size);
+    print_row_with_ulong("unsigned long int", unsigned_range_from_ullong_int(max_llong_int_range, "min"), unsigned_range_from_ullong_int(max_llong_int_range, "max"), llong_int_size);
     return 0;
 }
