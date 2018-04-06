@@ -12,9 +12,6 @@
 #include <float.h>
 #include <limits.h>
 #include <math.h>
-// formula for float min:  b**(emin - 1)
-#define FLOAT_BASE 2
-#define MAX_EXPONENT 127
 
 void print_range(int min, int max, int bits, char str[])
 {
@@ -94,7 +91,6 @@ float pow_float(int base, int exp)
     }
     return res;
 }
-
 
 unsigned long long int pow_ullong_int(int base, int exp)
 {
@@ -184,10 +180,8 @@ unsigned long long int signed_range_from_ullong_int(unsigned long long int max_r
 
 float min_float()
 {
-    int e = 8;
     int p = 24;
     int b = 2;
-    int emax = 127;
     int emin = -126;
     return pow(2, emin) * (1 - pow(b, -p));
 }
@@ -197,9 +191,6 @@ float max_float()
     int e = 8;
     int p = 24;
     int b = 2;
-    int emax = 127;
-    int emin = -126;
-    // (1 - b**-p) * b**emax
     return pow(b, pow(2, e-1)) * (1 - pow(b, -p));
 }
 
