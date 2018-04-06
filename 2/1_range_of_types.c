@@ -5,9 +5,16 @@
 * determine the ranges of various floating-point types.
 */
 
+// Run test
+// python .\runcc.py --comp gcc --sn 2.1
+
 #include <stdio.h>
 #include <float.h>
 #include <limits.h>
+#include <math.h>
+// formula for float min:  b**(emin - 1)
+#define FLOAT_BASE 2
+#define MAX_EXPONENT 127
 
 void print_range(int min, int max, int bits, char str[])
 {
@@ -55,7 +62,7 @@ void print_row_with_ullong(char type[], unsigned long long int min, unsigned lon
 
 void print_row_with_float(char type[], float min, float max, int bits)
 {
-    printf("Type:%s\nMin:%f\nMax:%f\nSize:%d\n", type, min, max, bits * 8);
+    printf("Type:%s\nMin:%e\nMax:%e\nSize:%d\n", type, min, max, bits * 8);
 }
 
 int pow_int(int base, int exp)
@@ -78,6 +85,17 @@ long long int pow_llong_int(int base, int exp)
     return res;
 }
 
+float pow_float(int base, int exp)
+{
+    float res = 1;
+    while (exp--)
+    {
+        res *= base;
+    }
+    return res;
+}
+
+
 unsigned long long int pow_ullong_int(int base, int exp)
 {
     unsigned long long int res = 1;
@@ -87,7 +105,7 @@ unsigned long long int pow_ullong_int(int base, int exp)
     }
     return res;
 }
-
+ 
 int range_int(int max_range_val, char min_max[], int is_signed)
 {
     if (is_signed)
@@ -164,6 +182,27 @@ unsigned long long int signed_range_from_ullong_int(unsigned long long int max_r
     }
 }
 
+float min_float()
+{
+    int e = 8;
+    int p = 24;
+    int b = 2;
+    int emax = 127;
+    int emin = -126;
+    return pow(2, emin) * (1 - pow(b, -p));
+}
+
+float max_float()
+{
+    int e = 8;
+    int p = 24;
+    int b = 2;
+    int emax = 127;
+    int emin = -126;
+    // (1 - b**-p) * b**emax
+    return pow(b, pow(2, e-1)) * (1 - pow(b, -p));
+}
+
 int main()
 {
     print_header();
@@ -182,6 +221,10 @@ int main()
 
     print_row_with_llong("signed long long int", LLONG_MIN, LLONG_MAX, LONG_BIT);
     print_row_with_ullong("unsigned long long int", 0, ULLONG_MAX, LONG_BIT);
+
+    printf("****************************\n");
+
+    print_row_with_float("float", FLT_MIN, FLT_MAX, sizeof(float));
 
     printf("****************************\n");
 
@@ -211,5 +254,9 @@ int main()
     unsigned long long int max_llong_int_range = pow_ullong_int(2, llong_int_size);
     print_row_with_long("signed long int", signed_range_from_ullong_int(reduced_llong_int_range, "min"), signed_range_from_ullong_int(reduced_llong_int_range, "max"), llong_int_size);
     print_row_with_ulong("unsigned long int", unsigned_range_from_ullong_int(max_llong_int_range, "min"), unsigned_range_from_ullong_int(max_llong_int_range, "max"), llong_int_size);
+    
+    printf("****************************\n");
+    print_row_with_float("float", min_float(),  max_float(), sizeof(float));
+
     return 0;
 }
