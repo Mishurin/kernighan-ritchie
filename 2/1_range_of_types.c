@@ -235,13 +235,13 @@ int main()
     print_row_with_ui("unsigned int", range_llong_int(max_int_range, "min", 0), range_llong_int(max_int_range, "max", 0), int_size);
 
     int long_int_size = sizeof(long int) * 8;
-    unsigned long long int reduced_long_int_range = pow_ullong_int(2, long_int_size - 1); // Oferflow circumvent
+    unsigned long long int reduced_long_int_range = pow_ullong_int(2, long_int_size - 1); // Overflow circumvent
     unsigned long long int max_long_int_range = pow_ullong_int(2, long_int_size);
     print_row_with_long("signed long int", signed_range_from_ullong_int(reduced_long_int_range, "min"), signed_range_from_ullong_int(reduced_long_int_range, "max"), long_int_size);
     print_row_with_ulong("unsigned long int", unsigned_range_from_ullong_int(max_long_int_range, "min"), unsigned_range_from_ullong_int(max_long_int_range, "max"), long_int_size);
 
     int llong_int_size = sizeof(long long int) * 8;
-    unsigned long long int reduced_llong_int_range = pow_ullong_int(2, llong_int_size - 1); // Oferflow circumvent
+    unsigned long long int reduced_llong_int_range = pow_ullong_int(2, llong_int_size - 1); // Overflow circumvent
     unsigned long long int max_llong_int_range = pow_ullong_int(2, llong_int_size);
     print_row_with_long("signed long int", signed_range_from_ullong_int(reduced_llong_int_range, "min"), signed_range_from_ullong_int(reduced_llong_int_range, "max"), llong_int_size);
     print_row_with_ulong("unsigned long int", unsigned_range_from_ullong_int(max_llong_int_range, "min"), unsigned_range_from_ullong_int(max_llong_int_range, "max"), llong_int_size);
