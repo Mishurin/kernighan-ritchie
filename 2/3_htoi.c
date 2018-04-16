@@ -4,6 +4,9 @@
 * allowable digits are 0 through 9, a through f, and A through F
 */
 
+// Run test:
+// python .\runcc.py --comp gcc --sn 2.3
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
