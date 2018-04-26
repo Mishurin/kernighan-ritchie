@@ -30,7 +30,7 @@ int any(char s1[], char s2[])
             return i;
         }
     }
-    return -1;
+    return NOT_FOUND;
 }
 
 int main()
