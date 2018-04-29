@@ -79,7 +79,7 @@ unsigned int create_gap_in_position(unsigned int x, int p, int n)
     * We need create a gap/hole on the position of replacement of size of
     * replacement:
     * [0|0|0<0|0|1>0|1] -> [0|0|0<0|0|0>0|1]
-    * Lets create a hole-mask a required place:
+    * Lets create a hole-mask at the required place:
     * [1|1|1<0|0|0>1|1]: ~create_mask_in_position(p, n) = mask
     * [0|0|0<0|0|0>0|1]: x & mask = 1
     */
