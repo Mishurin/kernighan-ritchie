@@ -14,14 +14,15 @@ int p = 4;
 int n = 3;
 
 
-unsigned int create_maske_in_position(int p, int n)
+unsigned int create_mask_in_position(int p, int n)
 {
     return (~(~UNSIGNED_INT_ZERO << n)) << (p - n + 1);
 }
 
+
 unsigned int invert(unsigned int x, int p, int n)
 {
-    int mask = create_maske_in_position(p, n);
+    unsigned int mask = create_mask_in_position(p, n);
     return (x & ~mask) | (~x & mask);
 }
 
