@@ -4,6 +4,9 @@
  * Explain why. Use this observation to write a faster version of bitcount.
 */
 
+// Run test:
+// python ./runcc.py --comp gcc --sn 2.9
+
 #include <stdio.h>
 
 int convert(int a)
