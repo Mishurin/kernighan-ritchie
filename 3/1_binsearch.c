@@ -6,6 +6,9 @@
 
 #include <stdio.h>
 
+// Run test
+// python ./runcc.py --comp gcc --sn 3.1
+
 int binsearch(int x, int v[], int n)
 {
     int low, high, mid = 0;
