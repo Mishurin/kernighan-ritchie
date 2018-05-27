@@ -10,23 +10,23 @@
 #include <ctype.h>
 
 #define MAX_STRING_LENGTH 1000
+#define DASH_SYMBOL '-'
+#define END_OF_STRING '\0'
 
 void expand(char s1[], char s2[])
 {
-    int len = strlen(s1);
+    int start, end;
+    int is_range = 0, range_end = 0, range_started = 0, target_index = 0, len = strlen(s1);
     char ch;
-    int target_counter = 0;
-    char range_start;
-    char range_started = 0;
-    char is_range = 0;
+
     for (int i = 0; i < len; i++)
     {
         ch = s1[i];
-        if ((i == 0 || i == (len - 1)) && ch == '-')
+        if ((i == 0 || i == (len - 1)) && ch == DASH_SYMBOL)
         {
-            s2[target_counter++] = ch;
+            s2[target_index++] = ch;
         }
-        else if (range_started && ch == '-')
+        else if (range_started && ch == DASH_SYMBOL)
         {
             is_range = 1;
         }
@@ -35,17 +35,19 @@ void expand(char s1[], char s2[])
         {
             if (!range_started && !is_range)
             {
-                range_start = ch;
                 range_started = 1;
+                start = (int)ch;
             }
             else if (is_range)
             {
-                int start = (int)range_start;
-                int end = (int)ch;
-                //printf("%d:%d", start, end);
+                if(s1[i + 1] == DASH_SYMBOL && isalnum(s1[i + 2]))
+                {
+                    continue;
+                }
+                end = (int)ch;
                 for (int j = start; j <= end; j++)
                 {
-                    s2[target_counter++] = (char)j;
+                    s2[target_index++] = (char)j;
                 }
                 is_range = 0;
                 range_started = 0;
@@ -53,7 +55,7 @@ void expand(char s1[], char s2[])
         }
     }
 
-    s2[target_counter] = '\0';
+    s2[target_index] = END_OF_STRING;
 }
 
 int main()
@@ -69,6 +71,8 @@ int main()
     expand("-a-z", expanded);
     printf("%s\n", expanded);
     expand("-a-z-", expanded);
+    printf("%s\n", expanded);
+    expand("-0-3-5", expanded);
     printf("%s\n", expanded);
     return 0;
 }
