@@ -13,6 +13,9 @@
 #define DASH_SYMBOL '-'
 #define END_OF_STRING '\0'
 
+// Run test
+// python ./runcc.py --comp gcc --sn 3.3
+
 void expand(char s1[], char s2[])
 {
     int start, end;
