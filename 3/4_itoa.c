@@ -30,16 +30,15 @@ void itoa(int n, char s[])
     * longer intermediate variable which is capable to store 2147483648 which is larger
     * than max allowed integer.
     */
-    long n_long;
-    if ((sign = n) < 0)
+    long n_long = n;
+    if ((sign = n_long) < 0)
     {
-        n_long = n;
         n_long = -n_long;
     }
     i = 0;
     do
     {
-        s[i++] = n_long % 10 + '0';
+        s[i++] = (n_long % 10) + '0';
     } while ((n_long /= 10) > 0);
     if (sign < 0)
         s[i++] = '-';
@@ -52,6 +51,8 @@ int main()
     char str[1000];
     int a = -2147483648; // Smallest negative integer
     itoa(a, str);
+    printf("%s\n", str);
+    itoa(100, str);
     printf("%s\n", str);
     return 0;
 }
