@@ -40,7 +40,11 @@ void itoa(int n, char s[], int min_width)
         min_width--;
     } while ((n_long /= 10) > 0);
     if (sign < 0)
+    {
         s[i++] = '-';
+        min_width--;
+    }
+
     while (min_width > 0)
     {
         s[i++] = PADDING_CHAR;
@@ -57,7 +61,9 @@ int main()
     printf("%s\n", target);
     itoa(100, target, 11);
     printf("%s\n", target);
-    itoa(-20, target, 10);
+    itoa(-20, target, 11);
+    printf("%s\n", target);
+    itoa(0, target, 11);
     printf("%s\n", target);
     return 0;
 }
