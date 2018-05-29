@@ -16,6 +16,7 @@ PARSER.add_argument('--comp', default='cc', help='Compiler executable')
 PARSER.add_argument('--sn', required=True, help='Solution number')
 PARSER.add_argument('--out', nargs='?', default=None, help='Destination')
 PARSER.add_argument('--opts', nargs='*', help='Parameters for executable')
+PARSER.add_argument('--inc', nargs='*', help='Include files')
 
 
 ARGS = PARSER.parse_args()
@@ -42,6 +43,11 @@ FILES = glob.glob(os.path.join(PATH[0], '{0}_**.c'.format(PATH[1])))
 
 # Add file to compile
 OPTION_LIST.append(FILES[0])
+
+if ARGS.inc:
+    for item in ARGS.inc:
+        item_found = glob.glob(os.path.join(PATH[0], item))[0]
+        OPTION_LIST.append(item_found)
 
 # Add compiler output option
 OPTION_LIST.append('-o')
