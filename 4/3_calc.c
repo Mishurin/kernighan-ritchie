@@ -13,7 +13,7 @@ void push(double);
 double pop(void);
 
 // Run test
-// python ./runcc.py --comp gcc --sn 4.3 --opts < ./4/mocks/4_polish_calc
+// python ./runcc.py --comp gcc --sn 4.3 --opts < ./4/mocks/3_polish_calc
 
 /* reverse Polish calculator */
 int main()

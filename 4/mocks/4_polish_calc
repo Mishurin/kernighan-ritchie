@@ -1,5 +1,6 @@
--10 -5 +
--10 -5 -
-10 5 %
-10 4 %
-3 2 % -1 - 2 -
+2 2 printstack duplicatestack printstack + + +
+drawruller
+1 3 printstack swapfirstpair printstack -
+drawruller
+2 2 2 printstack clearstack printstack
+drawruller
