@@ -9,8 +9,9 @@ import glob
 import os
 
 PARSER = argparse.ArgumentParser(description='Arguments for compiler', usage='%(prog)s [options]')
-PARSER.add_argument('w', nargs='?', help='Show warnings')
-PARSER.add_argument('g', nargs='?', help='Prepare for debugging')
+PARSER.add_argument('-w', help='Show warnings', action="store_true")
+PARSER.add_argument('-g', help='Prepare for debugging', action="store_true")
+PARSER.add_argument('-l', help='Link libraries', action="store_true")
 PARSER.add_argument('--i', nargs='?', help='Include directory')
 PARSER.add_argument('--comp', default='cc', help='Compiler executable')
 PARSER.add_argument('--sn', required=True, help='Solution number')
@@ -58,6 +59,10 @@ else:
 
 # Add output file
 OPTION_LIST.append(OUT)
+
+# Link libraries like math
+if ARGS.l:
+    OPTION_LIST.append('-lm')
 
 # Executable command line arguments
 EXEC_OPTIONS = []

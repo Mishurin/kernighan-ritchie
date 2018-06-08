@@ -1,11 +1,12 @@
 /*
-* Exercise 4-4. Add the commands to print the top elements of the stack without popping, 
-* to duplicate it, and to swap the top two elements. Add a command to clear the stack.
+*   Exercise 4-5. Add access to library functions like sin, exp, and pow. See <math.h> 
+* in Appendix B, Section 4.
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #define MAXOP 100
 #define NUMBER '0'
 #define COMMAND '1'
@@ -14,6 +15,9 @@
 #define SWAP_FIRST_PAIR_COMMAND "swapfirstpair"
 #define CLEAR_STACK_COMMAND "clearstack"
 #define DRAW_RULLER_COMMAND "drawruller"
+#define SIN_COMMAND "sin"
+#define EXP_COMMAND "exp"
+#define POW_COMMAND "pow"
 #define RULLER "-----------------------------------------\n"
 
 int getop(char[]);
@@ -27,7 +31,7 @@ void process_command(char[]);
 void drawruller(void);
 
 // Run test
-// python ./runcc.py --comp gcc --sn 4.4 --opts < ./4/mocks/4_polish_calc
+// python ./runcc.py -l --comp gcc --sn 4.5 --opts  < ./4/mocks/5_polish_calc
 
 /* reverse Polish calculator */
 int main()
@@ -133,7 +137,6 @@ void duplicatestack(void)
 
 void swapfirstpair(void)
 {
-    int stack_position = sp;
     double temp;
     if (sp >= 2)
     {
@@ -173,6 +176,15 @@ void process_command(char command[])
         clearstack();
     else if (!strcmp(command, DRAW_RULLER_COMMAND))
         drawruller();
+    else if (!strcmp(command, SIN_COMMAND))
+        push(sin(pop()));
+    else if (!strcmp(command, EXP_COMMAND))
+        push(exp(pop()));
+    else if (!strcmp(command, POW_COMMAND))
+    {
+        double op2 = pop();
+        push(pow(pop(), op2));
+    }
     else
         printf("error: unknown command %s\n", command);
 }
