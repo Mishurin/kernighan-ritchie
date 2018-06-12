@@ -8,6 +8,9 @@
 char buf;
 int bufset = 0;
 
+// Run test
+// python ./runcc.py -l --comp gcc --sn 4.8 --opts  < ./4/mocks/8_getch_ungetch
+
 /* get a (possibly pushed-back) character */
 int getch(void)
 {
