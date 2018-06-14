@@ -7,10 +7,22 @@
 /* getop: get next character or numeric operand */
 int getop(char s[])
 {
+    static int lastc = 0;
+
     int i, c;
-    while ((s[0] = c = getch()) == ' ' || c == '\t')
-        ;
+
+    if (lastc == 0)
+        c = getch();
+    else
+    {
+        c = lastc;
+        lastc = 0;
+    }
+
+    while ((s[0] = c) == ' ' || c == '\t')
+        c = getch();
     s[1] = END_OF_LINE;
+    
     if (!isdigit(c) && !isalpha(c) && c != '.' && c != '-' && c != '=')
         return c;
 
@@ -18,23 +30,23 @@ int getop(char s[])
 
     if (c == '=')
     {
-        s[i] = c;
-        s[++i] = END_OF_LINE;
+        s[i++] = c;
+        s[i] = END_OF_LINE;
         return ASSIGNMENT;
     }
 
     /* negative sign or subraction */
     if (c == '-')
     {
-        c = getch(); // next
-        if (isdigit(c))
+        lastc = getch(); // next
+        if (isdigit(lastc))
         {
-            s[i] = '-';
-            ungetch(c); // unread spied to live fancy while loops intact
+            s[i++] = '-';
+            c = s[i] = lastc;
+            lastc = 0;
         }
         else
         {
-            ungetch(c);
             return '-';
         }
     }
@@ -43,17 +55,18 @@ int getop(char s[])
 
     if (isalpha(c))
     {
-        char temp = getch();
-        if (is_space(temp))
+        lastc = getch();
+        s[i++] = c;
+        if (is_space(lastc))
         {
             signal = VARIABLE;
-            ungetch(temp);
-            s[i] = c;
-            s[++i] = END_OF_LINE;
+            s[i] = END_OF_LINE;
             return signal;
+        } else {
+            s[i] = lastc;
+            lastc = 0;
         }
-        else
-            ungetch(temp);
+
         while (isalpha(s[++i] = c = getch()))
             ;
         signal = COMMAND;
@@ -71,7 +84,7 @@ int getop(char s[])
 
     s[i] = END_OF_LINE;
     if (c != EOF)
-        ungetch(c);
+        lastc = c;
     return signal;
 }
 
