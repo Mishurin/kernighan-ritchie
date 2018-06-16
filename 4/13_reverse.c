@@ -3,6 +3,9 @@
 * string s in place.
 */
 
+// Run test
+// python ./runcc.py --comp gcc --sn 4.13
+
 #include <stdio.h>
 #include <string.h>
 
