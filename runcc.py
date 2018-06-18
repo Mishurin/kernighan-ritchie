@@ -7,6 +7,9 @@ import argparse
 import subprocess
 import glob
 import os
+import signal
+
+signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
 PARSER = argparse.ArgumentParser(description='Arguments for compiler', usage='%(prog)s [options]')
 PARSER.add_argument('-w', help='Show warnings', action="store_true")
