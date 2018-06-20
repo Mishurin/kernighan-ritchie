@@ -21,8 +21,6 @@ int main()
 /* strcat: concatenate t to end of s; s must be big enough */
 void str_cat(char *s, char *t)
 {
-    int i, j;
-    i = j = 0;
     while (*s != '\0') /* find end of s */
         s++;
     while (*s++ = *t++) /* copy t */
