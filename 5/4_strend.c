@@ -28,11 +28,11 @@ int strend(char *s, char *t)
 {
     int slen = strlen(s);
     int tlen = strlen(t);
-    if(slen < tlen)
+    if (slen < tlen)
         return 0;
     while (--slen >= 0 && --tlen >= 0)
     {
-        if ( *s + slen != *t + tlen)
+        if (s[slen] != t[tlen])
             return 0;
     }
     return 1;
