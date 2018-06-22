@@ -54,8 +54,8 @@ void strn_cat(char *s, char *t, int n)
 
 int strn_cmp(char *s, char *t, int n)
 {
-    for (; --n && (*s == *t); s++, t++)
-        if (*s == '\0' && n == 0)
+    for (; n && (*s == *t); s++, t++, --n)
+        if (*s == '\0' || n == 1)
             return 0;
     return *s - *t;
 }
