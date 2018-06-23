@@ -40,7 +40,7 @@ int atoi(char *s)
 int atois(char *s)
 {
     int n, sign;
-    while(isspace(*s))
+    while (isspace(*s))
         s++;
     sign = (*s == '-') ? -1 : 1;
     if (*s == '+' || *s == '-')
@@ -67,7 +67,7 @@ void itoa(int n, char *s)
     reverse(s);
 }
 
-void itoar(int n, char s[])
+void itoar(int n, char *s)
 {
     static int i = 0;
 
@@ -77,7 +77,6 @@ void itoar(int n, char s[])
         itoar(n_long / 10, s);
     else
     {
-        i = 0;
         if (n_long < 0)
         {
             s[i++] = '-';
@@ -105,4 +104,120 @@ void reverse(char *s)
         swap(&s[i++], &s[j]);
         reverse(s);
     }
+}
+
+int strindex(char *s, char *t)
+{
+    int i, j, k;
+    for (i = 0; *s != '\0'; i++)
+    {
+        char *pts = s;
+        char * ptt = t;
+        for (k = 0; *ptt != '\0' && *pts == *ptt; pts++, ptt++, k++)
+            ;
+        if (k > 0 && *ptt == '\0')
+            return i;
+        s++;
+    }
+    return -1;
+}
+
+#include <stdio.h>
+#define BUFSIZE 100
+char buf[BUFSIZE];
+int bufp = 0;
+
+/* get a (possibly pushed-back) character */
+int getch(void)
+{
+    return (bufp > 0) ? buf[--bufp] : getchar();
+}
+
+/* push character back on input */
+void ungetch(int c)
+{
+    if (bufp >= BUFSIZE)
+        printf("ungetch: too many characters\n");
+    else if(c != EOF)
+        buf[bufp++] = c;
+}
+
+int getop(char *s)
+{
+    static int lastc = 0;
+    int c;
+
+    if (lastc == 0)
+        c = getch();
+    else
+    {
+        c = lastc;
+        lastc = 0;
+    }
+
+    while ((*s = c) == ' ' || c == '\t')
+        c = getch();
+    s[1] = END_OF_LINE;
+    
+    if (!isdigit(c) && !isalpha(c) && c != '.' && c != '-' && c != '=')
+        return c;
+
+    if (c == '=')
+    {
+        *s++ = c;
+        *s = END_OF_LINE;
+        return ASSIGNMENT;
+    }
+
+    /* negative sign or subraction */
+    if (c == '-')
+    {
+        lastc = getch(); // next
+        if (isdigit(lastc))
+        {
+            *s++ = '-';
+            c = *s = lastc;
+            lastc = 0;
+        }
+        else
+        {
+            return '-';
+        }
+    }
+
+    char signal;
+
+    if (isalpha(c))
+    {
+        lastc = getch();
+        *s++ = c;
+        if (isspace(lastc))
+        {
+            signal = VARIABLE;
+            *s = END_OF_LINE;
+            return signal;
+        } else {
+            *s = lastc;
+            lastc = 0;
+        }
+
+        while (isalpha(*++s = c = getch()))
+            ;
+        signal = COMMAND;
+    }
+
+    if (isdigit(c))
+    {
+        while (isdigit(*++s = c = getch()))
+            ;
+        if (c == '.')
+            while (isdigit(*++s = c = getch()))
+                ;
+        signal = NUMBER;
+    }
+
+    *s = END_OF_LINE;
+    if (c != EOF)
+        lastc = c;
+    return signal;
 }

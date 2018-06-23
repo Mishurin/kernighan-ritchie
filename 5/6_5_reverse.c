@@ -6,18 +6,15 @@
 */
 
 // Run test:
-// python ./runcc.py --comp gcc --i ./5/utils/ --inc ./utils/6_utils.c --sn 5.6_4
+// python ./runcc.py --comp gcc --i ./5/utils/ --inc ./utils/6_utils.c --sn 5.6_5
 
 #include <stdio.h>
 #include "6_utils.h"
 
 int main()
 {
-    char s[10];
-    itoa(12345, s);
+    char s[] = "test";
+    reverse(s);
     printf("Result %s\n", s);
-    char l[10];
-    itoar(-12345, l);
-    printf("Result %s\n", l);
     return 0;
 }
