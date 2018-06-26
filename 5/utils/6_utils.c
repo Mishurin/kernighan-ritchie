@@ -19,10 +19,10 @@ int get_line(char *s, int lim)
         *s = c;
     }
 
-    if (*s == '\n')
+    if (c == '\n')
     {
-        *s = c;
-        s++;
+        *s++ = c;
+        i++;
     }
 
     *s = '\0';
