@@ -13,6 +13,7 @@ signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
 PARSER = argparse.ArgumentParser(description='Arguments for compiler', usage='%(prog)s [options]')
 PARSER.add_argument('-w', help='Show warnings', action="store_true")
+PARSER.add_argument('-argv', help='Arguments mode', action="store_true")
 PARSER.add_argument('-g', help='Prepare for debugging', action="store_true")
 PARSER.add_argument('-l', help='Link libraries', action="store_true")
 PARSER.add_argument('--i', nargs='?', help='Include directory')
@@ -81,4 +82,4 @@ EXIT_CODE = subprocess.call(OPTION_LIST, stdout=os.sys.stdout)
 
 # Run execution
 if EXIT_CODE == 0:
-    subprocess.call(EXEC_OPTIONS, stdout=os.sys.stdout, shell=True)
+    subprocess.call(EXEC_OPTIONS, stdout=os.sys.stdout, shell=not ARGS.argv)
