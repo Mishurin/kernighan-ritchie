@@ -5,7 +5,7 @@
 */
 
 // Run test
-// python ./runcc.py -argv --comp gcc --sn 5.11 --opts 5 6  < ./5/mocks/11_spaced_text.txt > out.txt
+// python ./runcc.py -argv --comp gcc --sn 5.11_1 --opts 5 6  < ./5/mocks/11_spaced_text.txt > out.txt
 
 #include <stdio.h>
 #include <stdlib.h>
