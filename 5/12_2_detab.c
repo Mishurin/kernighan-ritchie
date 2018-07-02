@@ -14,7 +14,6 @@
 #define LINEMAXLEN 100
 
 int get_line(char *s, int lim);
-int get_tab_stop(int argc, char *argv[], int index);
 void insert_spaces(int times);
 int get_frame(char *fstart, int lim);
 
@@ -38,7 +37,6 @@ int main(int argc, char *argv[])
 
     while (get_line(line, LINEMAXLEN) > 0)
     {
-        int index = 1; // Apply tab stops from arg vector per each line
         char *lpt = line;
         int length = 0;
 
@@ -79,16 +77,6 @@ void insert_spaces(int times)
     for (int i = 0; i < times; i++)
     {
         putchar(' ');
-    }
-}
-
-int get_tab_stop(int argc, char *argv[], int index)
-{
-    if (argc == 1 || index >= argc)
-        return DEFAULT_TAB_STOP;
-    else
-    {
-        return atoi(argv[index]);
     }
 }
 

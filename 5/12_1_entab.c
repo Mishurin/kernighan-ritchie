@@ -16,7 +16,6 @@
 
 int get_line(char *s, int lim);
 int get_frame(char *line, char frame[], int lim);
-int get_tab_stop(int argc, char *argv[], int index);
 
 // It is up to a text editor how big tabs should be displayed
 int main(int argc, char *argv[])
@@ -41,7 +40,6 @@ int main(int argc, char *argv[])
 
     while (get_line(line, LINEMAXLEN) > 0)
     {
-        int index = 1; // Apply tab stops from arg vector per each line
         char *lpt = line;
         int pos = scol;
         while (pos-- > 1)
