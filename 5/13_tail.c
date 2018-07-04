@@ -9,6 +9,9 @@
 * two-dimensional array of fixed size.
 */
 
+// Run test:
+// python ./runcc.py -argv --comp gcc --sn 5.13 --opts -5  < ./5/mocks/13_tail.txt
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
