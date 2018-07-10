@@ -1,0 +1,11 @@
+argv * * char
+daytab * [13] int
+daytab [13] * int
+comp () * void
+comp * () void
+x () * [] * () char
+x [3] * () * [5] char
+x char
+x [5] char
+x * char
+fn () * [] char
