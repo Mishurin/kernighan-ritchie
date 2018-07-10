@@ -34,7 +34,7 @@ int gt(int, int);
 int lt(int, int);
 int is_num_arr(char *);
 
-// Since requirement are not clear and no specification was provided, lets base our 
+// Since requirements are not clear and no specification was provided, lets base our 
 // solution on a start and an end position as was made by some other people
 static int fstart = 0;
 static int fend = MAXLEN;

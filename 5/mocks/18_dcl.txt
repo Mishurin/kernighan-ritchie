@@ -1,0 +1,13 @@
+char **argv
+int (*daytab)[13
+int (*daytab)[13]
+int *daytab[13] @
+int *daytab[13]
+char (*(*x())[]()
+char (*(*x())[])()
+@char (*(*x[3])())[5]
+char (*(*x[3])())[5]
+char []
+char a[5]
+int 5
+int a
