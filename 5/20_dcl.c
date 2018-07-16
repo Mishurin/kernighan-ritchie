@@ -47,15 +47,23 @@ void ungets(char *s);
 int strindex(char *s, char *t);
 int find_token(char *token, char *tokens[]);
 int get_types_and_qualifiers(char *store);
-int get_declaration();
-int tokentype;           // type of last token
-char token[MAXTOKEN];    // last token string
+int get_declaration(int pos);
+void print_buffer();
+void clean_buffer();
+void add_tabs(int n);
+int tokentype;
+char token[MAXTOKEN];
+int level = 0;
+char buffer[10][100][3][100];
 
 /* convert declaration to words */
 int main()
 {
-    while (get_declaration())
-        ;
+    while (get_declaration(0))
+    {
+        print_buffer(0);
+        clean_buffer();
+    }
     return 0;
 }
 
@@ -168,11 +176,11 @@ void dirdcl(char *name, char *out)
     {
         if (type == '(')
         {
-            printf(out, " function that has params:\n");
-            
+            int pos = 0;
+            strcat(out, "@fn");
             do
             {
-                get_declaration();
+                get_declaration(pos++);
             } while (tokentype == ',');
             if (tokentype != ')')
             {
@@ -180,7 +188,6 @@ void dirdcl(char *name, char *out)
                 tokentype = MISSINGRPR;
                 return;
             }
-            strcat(out, "and returning");
         }
         else if (type == PARENS)
             strcat(out, " function returning");
@@ -257,23 +264,22 @@ int find_token(char *token, char *tokens[])
     return 0;
 }
 
-int get_declaration()
+int get_declaration(int pos)
 {
     char name[MAXTOKEN];
-    char out[1000];
-    char datatype[MAXTOKEN];
 
-    name[0] = EOS;
-    out[0] = EOS;
-    datatype[0] = EOS;
+    char datatype[MAXTOKEN];
+    char out[MAXTOKEN];
+
     get_types_and_qualifiers(datatype);
 
     if (tokentype == EOF)
         return 0;
     else
     {
+        level++;
         dcl(name, out);
-
+        level--;
         if (tokentype == MISSINGCLBR || tokentype == UNKNOWNTOKEN)
         {
             jump_to_eol();
@@ -288,8 +294,9 @@ int get_declaration()
             return 1;
         }
 
-        printf("%s: %s %s\n", name, out, datatype);
-
+        sprintf(buffer[level][pos][0], "%s", name);
+        sprintf(buffer[level][pos][1], "%s", out);
+        sprintf(buffer[level][pos][2], "%s", datatype);
         return 1;
     }
 }
@@ -300,9 +307,71 @@ int get_types_and_qualifiers(char *store)
     int type;
     while ((type = gettoken()) == TYPE || type == QUALIFIER)
     {
-        sprintf(store, " %s", token);
+        sprintf(store, "%s", token);
         count++;
     }
     ungets(token);
     return count;
+}
+
+char bufout[1000];
+void print_buffer(int level)
+{
+    for (int i = 0, size = sizeof(buffer[level]) / sizeof(buffer[level][0]); i < size; i++)
+    {
+        char *pname = buffer[level][i][0];
+        char *pout = buffer[level][i][1];
+        char *pdtype = buffer[level][i][2];
+        if (strlen(pname) || strlen(pout) || strlen(pdtype))
+        {
+            char temp[1000];
+            add_tabs(level);
+            sprintf(temp, "%s:", strlen(pname) > 0 ? pname : "@anonymous");
+            strcat(bufout, temp);
+            if (strindex(pout, "@fn") != -1)
+            {
+                sprintf(temp, "%s", "function with params: [\n");
+                strcat(bufout, temp);
+                print_buffer(level + 1);
+                add_tabs(level);
+                sprintf(temp, "%s", "] and returns ");
+                strcat(bufout, temp);
+            }
+            else
+            {
+                strcat(bufout, pout);
+            }
+            sprintf(temp, " %s\n", pdtype);
+            strcat(bufout, temp);
+        }
+    }
+    if (level == 0)
+    {
+        printf("%s", bufout);
+    }
+}
+
+void clean_buffer()
+{
+    for (int i = 0, sizel = sizeof(buffer) / sizeof(buffer[0]); i < sizel; i++)
+    {
+        for (int j = 0, sizer = sizeof(buffer[i]) / sizeof(buffer[i][0]); j < sizer; j++)
+        {
+            for (int k = 0, sizei = sizeof(buffer[i][j]) / sizeof(buffer[i][j][i]); k < sizei; k++)
+            {
+                buffer[i][j][k][0] = '\0';
+            }
+        }
+    }
+}
+
+void add_tabs(int n)
+{
+    if (n > 0)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            strcat(bufout, "\t");
+        }
+    }
 }
