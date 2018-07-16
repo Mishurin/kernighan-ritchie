@@ -55,6 +55,7 @@ int tokentype;
 char token[MAXTOKEN];
 int level = 0;
 char buffer[10][100][3][100];
+char bufout[1000];
 
 /* convert declaration to words */
 int main()
@@ -315,7 +316,7 @@ int get_types_and_qualifiers(char *store)
     return count;
 }
 
-char bufout[1000];
+
 void print_buffer(int level)
 {
     for (int i = 0, size = sizeof(buffer[level]) / sizeof(buffer[level][0]); i < size; i++)
@@ -354,17 +355,10 @@ void print_buffer(int level)
 
 void clean_buffer()
 {
-    for (int i = 0, sizel = sizeof(buffer) / sizeof(buffer[0]); i < sizel; i++)
-    {
-        for (int j = 0, sizer = sizeof(buffer[i]) / sizeof(buffer[i][0]); j < sizer; j++)
-        {
-            for (int k = 0, sizei = sizeof(buffer[i][j]) / sizeof(buffer[i][j][i]); k < sizei; k++)
-            {
-                buffer[i][j][k][0] = '\0';
-            }
-        }
-    }
+    memset(buffer, 0, sizeof(buffer));
+    memset(bufout, 0, sizeof(bufout));
 }
+
 
 void add_tabs(int n)
 {
