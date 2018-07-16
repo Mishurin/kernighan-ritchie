@@ -177,7 +177,7 @@ void dirdcl(char *name, char *out)
         if (type == '(')
         {
             int pos = 0;
-            strcat(out, "@fn");
+            strcat(out, " function with params");
             do
             {
                 get_declaration(pos++);
@@ -270,6 +270,7 @@ int get_declaration(int pos)
 
     char datatype[MAXTOKEN];
     char out[MAXTOKEN];
+    out[0] = '\0';
 
     get_types_and_qualifiers(datatype);
 
@@ -328,13 +329,13 @@ void print_buffer(int level)
             add_tabs(level);
             sprintf(temp, "%s:", strlen(pname) > 0 ? pname : "@anonymous");
             strcat(bufout, temp);
-            if (strindex(pout, "@fn") != -1)
+            if (strindex(pout, "function with params") != -1)
             {
-                sprintf(temp, "%s", "function with params: [\n");
+                sprintf(temp, "%s %s", pout, ": [\n");
                 strcat(bufout, temp);
                 print_buffer(level + 1);
                 add_tabs(level);
-                sprintf(temp, "%s", "] and returns ");
+                sprintf(temp, "%s", "] that returns");
                 strcat(bufout, temp);
             }
             else
