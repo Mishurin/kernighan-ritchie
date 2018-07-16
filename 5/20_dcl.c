@@ -4,7 +4,7 @@
 */
 
 // Run test:
-// python ./runcc.py  --comp gcc --sn 5.20 --opts < ./5/mocks/20_dcl.txt
+// python ./runcc.py --comp gcc --sn 5.20 --opts < ./5/mocks/20_dcl.txt
 
 #include <stdio.h>
 #include <string.h>
@@ -54,15 +54,20 @@ void add_tabs(int n);
 int tokentype;
 char token[MAXTOKEN];
 int level = 0;
+// Storage for data. Assume max nesting level is 10 and max number of params is 100
 char buffer[10][100][3][100];
 char bufout[1000];
 
 /* convert declaration to words */
+/*
+* Program  
+*/
 int main()
 {
     while (get_declaration(0))
     {
         print_buffer(0);
+        printf("%s", "--------------------------------------\n");
         clean_buffer();
     }
     return 0;
@@ -270,6 +275,7 @@ int get_declaration(int pos)
     char name[MAXTOKEN];
 
     char datatype[MAXTOKEN];
+    datatype[0] = '\0';
     char out[MAXTOKEN];
     out[0] = '\0';
 
@@ -309,7 +315,9 @@ int get_types_and_qualifiers(char *store)
     int type;
     while ((type = gettoken()) == TYPE || type == QUALIFIER)
     {
-        sprintf(store, "%s", token);
+        char temp[100];
+        sprintf(temp, " %s", token);
+        strcat(store, temp);
         count++;
     }
     ungets(token);

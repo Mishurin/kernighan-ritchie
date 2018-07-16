@@ -1,1 +1,11 @@
 void q_sort(void *lineptr[], int left, int right, int (*comp)(void *, void *))
+const char i
+int main(const int argc, const char *argv[])
+static char i
+char **argv
+int (*daytab)[13]
+int *daytab[13]
+char (*(*x())[])()
+char (*(*x[3])())[5]
+char a[5]
+int a
