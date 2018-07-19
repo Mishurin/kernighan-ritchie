@@ -14,6 +14,8 @@ void ungetch(int c)
 {
     if (bufp >= BUFSIZE)
         printf("ungetch: too many characters\n");
-    else if(c != EOF)
+    else if (c != EOF)
         buf[bufp++] = c;
 }
+
+
