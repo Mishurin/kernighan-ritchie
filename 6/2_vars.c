@@ -6,7 +6,7 @@
 */
 
 // Run test:
-// python ./runcc.py -w --i ./6/ --inc ./utils.c ./word.c ./tree.c ./keywords.c --comp gcc --sn 6.2 -argv --opts < ./6/mocks/1_getword.c --opts 7
+// python ./runcc.py -w --i ./6/ --inc ./utils.c ./word.c ./tree.c ./keywords.c --comp gcc --sn 6.2 -argv --opts < ./6/mocks/2_vars.c--opts 4
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,16 +24,18 @@ int main(int argc, char const *argv[])
         return 1;
     }
 
-    int cmp_limit = atoi(argv[0]);
+    int cmp_limit = atoi(argv[1]);
 
-    struct tnode *root;
+    tnode *root;
     char word[MAXWORD];
     root = NULL;
     while (getword(word, MAXWORD) != EOF)
         if ((isalpha(word[0]) || word[0] == '_') && !is_keyword(word))
-            root = addtree(root, word);
-    treeprint(root);
-    return 0;
+            root = addtree(root, word, cmp_limit);
+    //treeprint(root);
+    varstobuffer(root);
+    printvars();
+    freetree(root);
     return 0;
 }
 

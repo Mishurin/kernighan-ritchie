@@ -19,7 +19,7 @@ int main()
     char shrt[3];
     strn_cpy(lng, "test_source", 4);
     printf("%s\n", lng);
-    strn_cpy(shrt, "test_source", 4); // Looks like short char array will be extended dynamically
+    strn_cpy(shrt, "test_source", 4); // TODO: passing n bigger then size of target cause to illegal memory access  
     printf("%s\n", shrt);
     strn_cpy(lng, "short", 10); // Works fine as well
     char str[] = "abc";
