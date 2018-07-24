@@ -14,7 +14,7 @@ tnode *addtree(tnode *p, char *w, int line)
         p->word = str_dup(w);
         p->count = 1;
         p->left = p->right = NULL;
-        addllnode(line, &p->lines);
+        addllnode(line, &p->lines, &p->tail);
     }
     else if ((cond = strcmp(w, p->word)) == 0)
     {
@@ -23,7 +23,7 @@ tnode *addtree(tnode *p, char *w, int line)
         if (lllnodept)
             lllnodept->count++;
         else
-            addllnode(line, &p->lines);
+            addllnode(line, &p->lines, &p->tail);
     }
     else if (cond < 0)
         p->left = addtree(p->left, w, line);
@@ -48,29 +48,40 @@ llnode *find_in_llist(int line, llnode *head)
     return NULL;
 }
 
-llnode *addllnode(int line, llnode **head)
+llnode *addllnode(int line, llnode **head, llnode **tail)
 {
     llnode *new = malloc(sizeof(llnode));
     if (new)
     {
+        if(!*head)
+            *head = new;
+        else if(!(*head)->next)
+            (*head)->next = new;
+        if(!*tail)
+            *tail = new;
+        else {
+            new->next = NULL;
+            new->prev = *tail;
+            *tail = new;
+        }
         new->line = line;
-        new->next = *head;
         new->count = 1;
-        *head = new;
         return new;
     }
     else
     {
-        freellist(head);
+        freellist(*head);
         return NULL;
     }
 }
 
-int freellist(llnode **head)
+void freellist(llnode *head)
 {
-    while (removellnode(head))
-        ;
-    return *head == NULL;
+    if (head != NULL)
+    {
+        freellist(head->next);
+        free(head);
+    }
 }
 
 llnode *removellnode(llnode **head)
@@ -104,8 +115,8 @@ void freetree(tnode *p)
     {
         freetree(p->left);
         freetree(p->right);
-        if (p->lines)
-            freellist(&p->lines);
+        freellist(p->lines);
+        free(p->word);
         free(p);
     }
 }
