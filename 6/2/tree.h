@@ -26,4 +26,3 @@ void varstobuffer(tnode *p);
 void printvars();
 tnode *talloc(void);
 void freetree(tnode *p);
-char *str_dup(char *);

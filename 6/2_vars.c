@@ -6,14 +6,14 @@
 */
 
 // Run test:
-// python ./runcc.py -w --i ./6/ --inc ./utils.c ./word.c ./tree.c ./keywords.c --comp gcc --sn 6.2 -argv --opts < ./6/mocks/2_vars.c--opts 4
+// python ./runcc.py -w --i ./6/ --inc utils.c ./2/word.c ./2/tree.c ./2/keywords.c --comp gcc --sn 6.2 -argv --opts < ./6/mocks/2_vars.c --opts 4
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include "word.h"
-#include "tree.h"
-#include "keywords.h"
+#include "2/word.h"
+#include "2/tree.h"
+#include "2/keywords.h"
 #define MAXWORD 100
 
 int main(int argc, char const *argv[])

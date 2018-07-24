@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "utils.h"
 static char buf[BUFSIZE];
 static int bufp = 0;
@@ -45,3 +47,36 @@ void swap(void *v[], int i, int j)
     v[j] = temp;
 }
 
+/* binsearch: find word in tab[0]...tab[n-1] */
+char *binsearch(char *word, char *keys[], int n)
+{
+    int cond;
+    int low, high, mid;
+    low = 0;
+    high = n - 1;
+    while (low <= high)
+    {
+        mid = (low + high) / 2;
+        if ((cond = strcmp(word, keys[mid])) < 0)
+            high = mid - 1;
+        else if (cond > 0)
+            low = mid + 1;
+        else
+            return keys[mid];
+    }
+    return NULL;
+}
+
+int is_word_in_array(char *word, char *words[], int arr_size)
+{
+    return binsearch(word, words, arr_size) != NULL;
+}
+
+char *str_dup(char *s)
+{
+    char *p;
+    p = (char *)malloc(strlen(s) + 1);
+    if (p != NULL)
+        strcpy(p, s);
+    return p;
+}

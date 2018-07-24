@@ -144,13 +144,3 @@ void llisttoarray(llnode *head, char *words[])
         head = head->next;
     }
 }
-
-/* make a duplicate of s */
-char *str_dup(char *s)
-{
-    char *p;
-    p = (char *)malloc(strlen(s) + 1);
-    if (p != NULL)
-        strcpy(p, s);
-    return p;
-}
