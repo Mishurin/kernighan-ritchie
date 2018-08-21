@@ -5,7 +5,7 @@
 */
 
 // Compile:
-// ./5/17_sort < ./5/mocks/17_sort.txt
+// gcc -Wall ./5/17_sort.c -o ./5/17_sort
 // Run test:
 // ./5/17_sort +6 -7 < ./5/mocks/17_sort.txt
 // ./5/17_sort +12 -13 -n < ./5/mocks/17_sort
