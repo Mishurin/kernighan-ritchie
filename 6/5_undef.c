@@ -22,7 +22,6 @@ typedef struct nlist
 
 nlist *hashtab[HASHSIZE];
 
-char *str_dup(char *);
 unsigned hash(char *s);
 nlist *lookup(char *s);
 nlist *install(char *name, char *defn);
