@@ -6,7 +6,7 @@
 // Run test:
 // gcc ./7/1_upperlower.c -o ./7/upper
 // ./7/upper
-// gcc ./7/1_upperlower.c -o 
+// gcc ./7/1_upperlower.c -o ./7/lower
 // ./7/lower
 
 #include <stdio.h>
