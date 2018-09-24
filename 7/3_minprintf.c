@@ -92,6 +92,7 @@ void minprintf(char *fmt, ...)
             printf("%c", '%');
             break;
         default:
+            *tpt = EOS;
             printf("%s", token);
             break;
         }
