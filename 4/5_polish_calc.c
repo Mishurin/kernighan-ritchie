@@ -205,7 +205,7 @@ int getop(char s[])
 
     i = 0;
 
-    /* negative sign or subraction */
+    /* negative sign or subtraction */
     if (c == '-')
     {
         c = getch(); // next

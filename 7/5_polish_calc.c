@@ -1,7 +1,10 @@
 /*
-* Exercise 4-3. Given the basic framework, it's straightforward to extend the calculator. 
-* Add the modulus (%) operator and provisions for negative numbers.
+* Exercise 5-5. Rewrite the postfix calculator of Chapter 4 to use scanf and/or 
+* sscanf to do the input and number conversion.
 */
+
+// Run test
+// python ./runcc.py --comp gcc --sn 7.5 --opts < ./7/mocks/5_polish_calc.txt
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,21 +15,20 @@ int getop(char[]);
 void push(double);
 double pop(void);
 
-// Run test
-// python ./runcc.py --comp gcc --sn 4.3 --opts < ./4/mocks/3_polish_calc
-
 /* reverse Polish calculator */
 int main()
 {
     int type;
     double op2;
     char s[MAXOP];
+    float number;
     while ((type = getop(s)) != EOF)
     {
         switch (type)
         {
         case NUMBER:
-            push(atof(s));
+            sscanf(s, "%f", &number);
+            push(number);
             break;
         case '+':
             push(pop() + pop());
@@ -36,7 +38,7 @@ int main()
             break;
         case '-':
             op2 = pop();
-            push( pop() - op2);
+            push(pop() - op2);
             break;
         case '/':
             op2 = pop();
@@ -120,7 +122,7 @@ int getop(char s[])
     if (isdigit(c))
         while (isdigit(s[++i] = c = getch()))
             ;
-        
+
     if (c == '.')
         while (isdigit(s[++i] = c = getch()))
             ;
@@ -138,7 +140,11 @@ int bufp = 0;
 /* get a (possibly pushed-back) character */
 int getch(void)
 {
-    return (bufp > 0) ? buf[--bufp] : getchar();
+    char c;
+    if (bufp > 0)
+        return buf[--bufp];
+    else
+        return scanf("%c", &c) > 0? (int)c : EOF;
 }
 
 /* push character back on input */

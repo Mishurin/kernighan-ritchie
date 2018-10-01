@@ -35,7 +35,7 @@ int getop(char s[])
         return ASSIGNMENT;
     }
 
-    /* negative sign or subraction */
+    /* negative sign or subtraction */
     if (c == '-')
     {
         lastc = getch(); // next
