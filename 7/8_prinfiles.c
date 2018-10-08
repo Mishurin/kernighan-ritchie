@@ -82,5 +82,5 @@ void print_file(FILE *fp, char *fname, int lines)
         fprintf(stdout, "%s", line);
     }
 
-    fprintf(stdout, "<Page:%d>\n", page++);
+    fprintf(stdout, "<Page:%d>\n", page);
 }
