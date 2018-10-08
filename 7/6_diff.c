@@ -28,14 +28,14 @@ int main(int argc, char *argv[])
         if ((f1p = fopen(argv[1], "r")) == NULL)
         {
             fprintf(stderr, "%s: can't open %s\n",
-                    prog, *argv);
+                    prog, argv[1]);
             exit(1);
         }
 
         if ((f2p = fopen(argv[2], "r")) == NULL)
         {
             fprintf(stderr, "%s: can't open %s\n",
-                    prog, *argv);
+                    prog, argv[2]);
             exit(1);
         }
 
