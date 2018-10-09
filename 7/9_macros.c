@@ -7,7 +7,6 @@
 // python ./runcc.py --comp gcc --sn 7.9
 
 #include <stdio.h>
-#include <stdlib.h>
 #define isup(x) (x >= 'A' && x <= 'Z')
 // Version with pointers is not needed but possible
 #define isupp(x) (*x >= 'A' && *x <= 'Z')
