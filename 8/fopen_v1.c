@@ -116,7 +116,6 @@ int main(int argc, char *argv[])
     system("echo $(($(date +%s%N)/1000000))");
     FILE *fp = fopen("./8/mocks/2_fopen.txt", "r");
     int buf[1];
-    write(stdout->fd, buf, 1);
     if(fp)
         while((*buf = getc(fp)) != EOF)
             write(stdout->fd, buf, 1);

@@ -1,14 +1,11 @@
 /*
-* Exercise 8-2. Rewrite fopen and _fillbuf with fields instead of explicit bit 
-* operations. Compare code size and execution speed.
+* Exercise 8-3. Design and write _flushbuf, fflush, and fclose.
 */
 
 // Compile:
-// gcc ./8/2_fopen.c -o ./8/2_fopen
+// gcc ./8/3_futils.c -o ./8/3_futils
 // Run test:
-// ./8/2_fopen
-
-// Version with fields more or less as fast as without
+// ./8/3_futils
 
 #include <fcntl.h>
 #include <sys/syscall.h>
@@ -50,7 +47,7 @@ typedef struct _iobuf
 
 FILE _iob[OPEN_MAX] = {
     {0, (char *)0, (char *)0, {_READ : 1}, 0},
-    {0, (char *)0, (char *)0, {_WRITE : 1}, 1},
+    {0, (char *)0, (char *)0, {_WRITE : 1, _UNBUF : 1}, 1},
     {0, (char *)0, (char *)0, {_WRITE : 1, _UNBUF : 1}, 2}};
 
 int _fillbuf(FILE *);
@@ -60,6 +57,9 @@ FILE *fopen(char *name, char *mode)
 {
     int fd;
     FILE *fp;
+
+    if (fp == NULL)
+        return NULL;
 
     if (*mode != 'r' && *mode != 'w' && *mode != 'a')
         return NULL;
@@ -116,14 +116,112 @@ int _fillbuf(FILE *fp)
     return (unsigned char)*fp->ptr++;
 }
 
+int _flushbuf(int c, FILE *fp)
+{
+    int bufsize;
+    if (!fp->flag._WRITE)
+        return EOF;
+    
+    bufsize = (fp->flag._UNBUF) ? 1 : BUFSIZ;
+
+    if (fp->flag._UNBUF)
+    {
+        fp->cnt = write(fp->fd, &c, bufsize);
+        if (fp->cnt == bufsize)
+        {
+            --fp->cnt;
+            return c;
+        }
+        else
+        {
+            fp->flag._ERR = 1;
+            return EOF;
+        }
+    }
+    else
+    {
+        if (fp->base == NULL)
+        {
+            if ((fp->base = (char *)malloc(bufsize)) == NULL)
+                return EOF;
+            fp->ptr = fp->base;
+            fp->cnt = bufsize;
+        }
+        else
+        {
+            fp->ptr = fp->base;
+            fp->cnt = write(fp->fd, fp->ptr, bufsize);
+            if (fp->cnt != bufsize)
+            {
+                fp->flag._ERR = 1;
+                return EOF;
+            }
+            else
+            {
+                free(fp->base);
+                fp->base = NULL;
+                if ((fp->base = (char *)malloc(bufsize)) == NULL)
+                    return EOF;
+                fp->ptr = fp->base;
+                fp->cnt = bufsize;
+            }
+        }
+        --fp->cnt;
+        return *fp->ptr++ = (unsigned char)c;
+    }
+}
+
+int fflush(FILE *fp)
+{
+    int items;
+    if (!fp->flag._WRITE)
+        return EOF;
+    if(fp->flag._UNBUF)
+        return 0;
+    items = BUFSIZ - fp->cnt;
+    if (items > 0)
+    {
+        fp->ptr = fp->base;
+        fp->cnt = write(fp->fd, fp->ptr, items);
+        if (fp->cnt != items)
+        {
+            fp->flag._ERR = 1;
+            return EOF;
+        }
+        else
+        {
+            fp->cnt = 0;
+            free(fp->base);
+            fp->base = NULL;
+            fp->ptr = fp->base;
+            return items;
+        }
+    }
+    else
+        return 0;
+}
+
+int fclose(FILE *fp)
+{
+    fflush(fp);
+    close(fp->fd);
+}
+
 int main(int argc, char *argv[])
 {
     system("echo $(($(date +%s%N)/1000000))");
-    FILE *fp = fopen("./8/mocks/2_fopen.txt", "r");
-    int buf[1];
+    FILE *fp = fopen("./8/mocks/3_futils.txt", "r");
+    FILE *fw = fopen("./8/out.txt", "w");
+    int c;
     if (fp)
-        while ((*buf = getc(fp)) != EOF)
-            write(stdout->fd, buf, 1);
+        while ((c = getc(fp)) != EOF)
+        {
+            putc(c, fw);
+            putchar(c);
+        }
+    putchar('\n');
+    fclose(fw);
     system("echo $(($(date +%s%N)/1000000))");
+    system("diff ./8/mocks/3_futils.txt ./8/out.txt");
     return 0;
 }
