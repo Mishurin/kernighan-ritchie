@@ -203,8 +203,9 @@ int fflush(FILE *fp)
 
 int fclose(FILE *fp)
 {
-    fflush(fp);
-    close(fp->fd);
+    if(fp->flag._WRITE)
+        fflush(fp);
+    return close(fp->fd);
 }
 
 int main(int argc, char *argv[])
