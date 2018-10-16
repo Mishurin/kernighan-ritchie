@@ -1,11 +1,15 @@
 /*
-* Exercise 8-3. Design and write _flushbuf, fflush, and fclose.
+* Exercise 8-4. The standard library function 
+* int fseek(FILE *fp, long offset, int origin)
+* is identical to lseek except that fp is a file pointer instead of a file descriptor and 
+* return value is an int status, not a position. Write fseek. Make sure that your fseek 
+* coordinates properly with the buffering done for the other functions of the library.
 */
 
 // Compile:
-// gcc ./8/3_futils.c -o ./8/3_futils
+// gcc ./8/4_fseek.c -o ./8/4_fseek
 // Run test:
-// ./8/3_futils
+// ./8/4_fseek
 
 #include <fcntl.h>
 #include <sys/syscall.h>
@@ -208,25 +212,43 @@ int fclose(FILE *fp)
     return close(fp->fd);
 }
 
+int fseek(FILE *fp, long offset, int origin)
+{
+    if (fp->flag._UNBUF || fp->flag._ERR)
+        return EOF;
+    fp->cnt = 0;
+    if (fp->base)
+        free(fp->base);
+    fp->base = fp->ptr = NULL;
+    fp->flag._EOF = 0;
+    return lseek(fp->fd, offset, origin);
+}
+
 int main(int argc, char *argv[])
 {
     system("echo $(($(date +%s%N)/1000000))");
-    FILE *fp = fopen("./8/mocks/3_futils.txt", "r");
-    FILE *fw = fopen("./8/out.txt", "w");
+    FILE *fp = fopen("./8/mocks/4_fseek.txt", "r");
     int c;
+    while ((c = getc(fp)) != EOF)
+        ;
+
+    fseek(fp, 5, 0); // Rewind
+
+    FILE *fw = fopen("./8/mocks/4_out.txt", "a");
+    
     if (fp && fw)
         while ((c = getc(fp)) != EOF)
         {
             putc(c, fw);
             putchar(c);
         }
-
+        
     putchar('\n');
 
     fclose(fp);
     fclose(fw);
 
     system("echo $(($(date +%s%N)/1000000))");
-    system("diff ./8/mocks/3_futils.txt ./8/out.txt");
+    system("diff ./8/mocks/4_fseek.txt ./8/mocks/4_out.txt");
     return 0;
 }
