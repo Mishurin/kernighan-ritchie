@@ -226,29 +226,31 @@ int fseek(FILE *fp, long offset, int origin)
 
 int main(int argc, char *argv[])
 {
-    system("echo $(($(date +%s%N)/1000000))");
-    FILE *fp = fopen("./8/mocks/4_fseek.txt", "r");
     int c;
-    while ((c = getc(fp)) != EOF)
-        ;
 
-    fseek(fp, 5, 0); // Rewind
+    system("echo $(($(date +%s%N)/1000000))");
 
+    FILE *fp = fopen("./8/mocks/4_fseek.txt", "r");
     FILE *fw = fopen("./8/mocks/4_out.txt", "a");
-    
+
     if (fp && fw)
+    {
+        while ((c = getc(fp)) != EOF)
+            ;
+        fseek(fp, 5, 0); // Rewind
         while ((c = getc(fp)) != EOF)
         {
             putc(c, fw);
             putchar(c);
         }
-        
-    putchar('\n');
 
-    fclose(fp);
-    fclose(fw);
+        putchar('\n');
+        fclose(fp);
+        fclose(fw);
+    }
 
     system("echo $(($(date +%s%N)/1000000))");
     system("diff ./8/mocks/4_fseek.txt ./8/mocks/4_out.txt");
+
     return 0;
 }
